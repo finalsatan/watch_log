@@ -1,0 +1,67 @@
+<!-- <html>
+<head>
+<script>
+var ws = new WebSocket('ws://192.168.33.11:8000/soc');
+ws.onmessage = function(event) {
+    document.getElementById('message').innerHTML = event.data + '<br/>' + document.getElementById('message').innerHTML;
+};
+</script>
+<style>  
+.log{ margin-left:10px;overflow-y:scroll; overflow-x:scroll;} 
+
+</style> 
+</head>
+<body>
+<div id="message" class="log" style="background:#000; color:#FFF"></div> -->
+
+
+
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset="gb2312" /> 
+<title>erp订单推送</title> 
+<style> 
+.divcss5-b{ width:100%; height:600px; float:left; background:#000; color:#FFF; border:1px solid #F00 }
+.divcss5-b{ overflow-y:scroll; overflow-x:scroll;} 
+/* css注释说明：设置第二个盒子与第一个盒子间距为10px，并设置了横纵滚动条样式 */ 
+</style> 
+<script>
+var ws = new WebSocket('ws://192.168.33.11:8000/soc');
+ws.onmessage = function(event) {
+    document.getElementById('message').innerHTML = event.data + '<br/>';
+    var div = document.getElementById('message'); 
+    div.scrollTop = div.scrollHeight; 
+};
+
+function import_po() {
+    ws.send(document.getElementById('date').value + ',' + document.getElementById('city').value + ',import_presale_orders_for_po' );
+}
+
+function push_po() {
+    ws.send(document.getElementById('date').value + ',' + document.getElementById('city').value + ',push_presale_po' );
+}
+
+function import_so_rso() {
+    ws.send(document.getElementById('date').value + ',' + document.getElementById('city').value + ',import_presale_orders_for_so' );
+}
+
+function push_so_rso() {
+    ws.send(document.getElementById('date').value + ',' + document.getElementById('city').value + ',push_presale_so' );
+}
+
+</script>
+</head> 
+<body> 
+ <label>日期:</label><input id='date'>
+ <label>城市:</label><input id='city'>
+ <p></p>
+ <label>操作:</label>
+ <button onclick='import_po()'>导入PO</button>
+ <button onclick='push_po()'>推送PO</button>
+ <button onclick='import_so_rso()'>导入SO/RSO</button>
+ <button onclick='push_so_rso()'>推送SO/RSO</button>
+ <p>日志:</p>
+<div class="divcss5-b" id="message"></div> 
+</body>
+</html> 
